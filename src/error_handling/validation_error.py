@@ -1,7 +1,6 @@
-from ..validators.validate_register import validate_register_user_request_body
-
 class ValidationError(Exception):
-    def __init__(self, message, errors):
+    def __init__(self, message, errors=None) -> None:
         super().__init__(message)
         self.message = message
         self.errors = errors
+        self.error_type = 'This is my mistake'

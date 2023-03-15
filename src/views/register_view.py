@@ -1,13 +1,15 @@
 from cerberus import Validator
 from ..controller.register_controller import RegisterController
 from ..validators.validate_register import validate_register_user_request_body
+from ..error_handling.validation_error import ValidationError
 
 class RegisterView:
     def register_user_view(self, request):
         # Valida o body da requisição
-        validation_response = validate_register_user_request_body(request.json)
-        if not validation_response["is_valid"]:
-            return {"status_code":400, "data": { "error" : validation_response["error"]}}
+        try:
+            validation_response = validate_register_user_request_body(request.json)
+        except ValidationError as e:
+            return {"status_code": 400, "data": e.message}
 
         # Extrai os valores do livro do body da requisição
         body = request.json

@@ -1,4 +1,5 @@
 from cerberus import Validator
+from ..error_handling.validation_error import ValidationError
 
 def validate_register_user_request_body(request_body):
 # Define o esquema de validação
@@ -14,7 +15,7 @@ def validate_register_user_request_body(request_body):
     is_valid = validator.validate(request_body)
 
     if not is_valid:
-        raise ValidationError("Invalid request body", validator.errors)
+        raise ValidationError({"message": "Invalid request body", "errors": validator.errors})
 
     return {
         "is_valid": is_valid,
